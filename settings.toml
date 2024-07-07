@@ -1,0 +1,5 @@
+mongodb = "mongodb://localhost:27017"
+mongodb_db = "render"
+mongodb_user = "root"
+mongodb_password = "1q2w3e"
+mongodb_uri = "mongodb://root:1q2w3e@localhost:27017/"
