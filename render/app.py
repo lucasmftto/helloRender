@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
-from routes import main_router
+from .routes import main_router
 
 app = FastAPI(
     title="hello-bruno-api",
