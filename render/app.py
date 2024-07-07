@@ -1,11 +1,12 @@
 import uvicorn
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, status, Body
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 
-from .routes import main_router
+from render.models import User
+from routes import main_router
 from db import AsyncIOMotorClient, get_database
-
+from auth import get_user
 
 app = FastAPI(
     title="hello-bruno-api",
@@ -18,11 +19,34 @@ app.include_router(main_router)
 
 @app.get('/')
 async def root(mongo_db: AsyncIOMotorClient = Depends(get_database)):
-    actins_collection = mongo_db["render"]["actions"]
-    await actins_collection.insert_one({"action": "GET /"})
-    rows = actins_collection.find({}, {'_id': 0})
-    actions = await rows.to_list(length=1000)
-    return JSONResponse(jsonable_encoder(actions))
+    user_collection = mongo_db["render"]["users"]
+    user = await get_user("lucas", user_collection)
+
+    return JSONResponse(jsonable_encoder(user))
+
+
+@app.post(
+    "/",
+    response_description="Add new student",
+    response_model=User,
+    status_code=status.HTTP_201_CREATED,
+    response_model_by_alias=False,
+)
+async def create_user(user: User = Body(...),
+                      mongo_db: AsyncIOMotorClient = Depends(get_database)):
+    """
+    Insert a new user.
+
+    A unique `id` will be created and provided in the response.
+    """
+    actions_collection = mongo_db["render"]["users"]
+    new_user = await actions_collection.insert_one(
+        user.model_dump(by_alias=True, exclude=["id"])
+    )
+    created_student = await actions_collection.find_one(
+        {"_id": new_user.inserted_id}
+    )
+    return created_student
 
 
 if __name__ == "__main__":

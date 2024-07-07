@@ -4,3 +4,5 @@ motor
 pydantic
 pydantic-core
 dynaconf
+python-jose[cryptography]
+bcrypt==4.0.1
