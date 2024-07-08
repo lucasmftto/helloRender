@@ -1,6 +1,6 @@
 import motor.motor_asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
-from config import settings
+from render.config import settings
 from fastapi import Depends
 
 client = motor.motor_asyncio.AsyncIOMotorClient(settings.mongodb_uri)

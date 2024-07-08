@@ -4,9 +4,9 @@ from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 
 from render.models import User
-from routes import main_router
-from db import AsyncIOMotorClient, get_database
-from auth import get_user
+from render.routes import main_router
+from render.db import AsyncIOMotorClient, get_database
+from render.auth import get_user
 
 app = FastAPI(
     title="hello-bruno-api",
