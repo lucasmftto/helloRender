@@ -7,5 +7,5 @@ main_router = APIRouter()
 
 
 main_router.include_router(notification_route, prefix="/notification", tags=["notification"])
-main_router.include_router(auth_router, tags=["auth"])
+main_router.include_router(auth_router,prefix="/auth", tags=["auth"])
 

@@ -27,7 +27,7 @@ async def root(mongo_db: AsyncIOMotorClient = Depends(get_database)):
 
 @app.post(
     "/",
-    response_description="Add new student",
+    response_description="Add new user",
     response_model=User,
     status_code=status.HTTP_201_CREATED,
     response_model_by_alias=False,
