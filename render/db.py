@@ -17,4 +17,4 @@ ActiveSession = Depends(get_database)
 async def get_user_collection():
     return users_collection
 
-ActiveSession = Depends(get_user_collection)
+UserCollection = Depends(get_user_collection)
